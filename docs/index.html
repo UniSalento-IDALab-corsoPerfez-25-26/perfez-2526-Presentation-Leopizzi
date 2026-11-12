@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OneHealth — aria, calore e salute nel Salento</title>
+<meta name="description" content="Cruscotto di supporto decisionale che affianca qualità dell'aria, calore urbano e salute nel Salento, con soli dati pubblici.">
+<style>
+  :root {
+    --sfondo: #f6f7f5; --card: #ffffff; --testo: #1d2523; --testo-2: #56625f; --linea: #dde2df;
+    --accento: #1f6f78; --accento-sfondo: #e3f0f1;
+    --aria: #1f6f78; --calore: #b9561f; --salute: #6b4a8f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --sfondo: #16191a; --card: #1f2324; --testo: #e8ecea; --testo-2: #a3aeab; --linea: #313838;
+            --accento: #5fb7c0; --accento-sfondo: #1c2f31; --aria: #5fb7c0; --calore: #e08a55; --salute: #b394d6; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--sfondo); color: var(--testo); line-height: 1.6;
+         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 920px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.3rem; margin: 48px 0 12px; }
+  p { margin: 0 0 12px; }
+  a { color: var(--accento); }
+  .sotto { color: var(--testo-2); font-size: 1.1rem; max-width: 62ch; }
+  .tre { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--linea); border-radius: 14px; padding: 16px 18px; }
+  .card h3 { margin: 0 0 4px; font-size: 1rem; }
+  .card p { color: var(--testo-2); margin: 0; font-size: 0.95rem; }
+  .barra { height: 4px; border-radius: 2px; margin-bottom: 12px; }
+  .repo { display: block; text-decoration: none; color: inherit; }
+  .repo:hover, .repo:focus-visible { border-color: var(--accento); }
+  .repo code { color: var(--accento); font-size: 0.85rem; word-break: break-all; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { fill: var(--testo); font-family: inherit; font-size: 13px; }
+  svg .secondario { fill: var(--testo-2); font-size: 13px; }
+  .schema { overflow-x: auto; }
+  .schema svg { min-width: 680px; }
+  svg .riquadro { fill: var(--card); stroke: var(--linea); }
+  svg .freccia { stroke: var(--testo-2); fill: none; stroke-width: 1.5; }
+  ul { padding-left: 1.2em; margin: 0; }
+  li { margin-bottom: 6px; }
+  .nota { background: var(--accento-sfondo); border-radius: 12px; padding: 14px 18px; }
+  footer { margin-top: 48px; color: var(--testo-2); font-size: 0.9rem; border-top: 1px solid var(--linea); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>OneHealth</h1>
+  <p class="sotto">Un cruscotto di supporto decisionale per presidi medici e aziende sanitarie, che affianca per zona e nel tempo <strong>qualità dell'aria</strong>, <strong>calore urbano</strong> e <strong>salute</strong> nel Salento. Solo dati pubblici, tutto in locale.</p>
+
+  <div class="tre" aria-label="I tre domini">
+    <div class="card"><div class="barra" style="background:var(--aria)"></div><h3>Aria</h3><p>ARPA Puglia, OpenAQ, EEA e Copernicus CAMS, confrontate fra loro e con i limiti di legge.</p></div>
+    <div class="card"><div class="barra" style="background:var(--calore)"></div><h3>Calore</h3><p>Temperatura ERA5-Land e ARPA, copertura arborea e suolo impermeabile per comune.</p></div>
+    <div class="card"><div class="barra" style="background:var(--salute)"></div><h3>Salute</h3><p>Decessi ISTAT per distretto e mese; ricoveri, pronto soccorso e ADI simulati, sempre dichiarati.</p></div>
+  </div>
+
+  <h2>Il progetto in tre repository</h2>
+  <div class="tre">
+    <a class="card repo" href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Backend-Leopizzi">
+      <h3>Backend</h3><p>Client delle fonti, pipeline, API locale e assistente ONE.</p><code>perfez-2526-Backend-Leopizzi</code></a>
+    <a class="card repo" href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Frontend-Leopizzi">
+      <h3>Frontend</h3><p>La dashboard: mappa, grafici, confronti e chat.</p><code>perfez-2526-Frontend-Leopizzi</code></a>
+    <a class="card repo" href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Presentation-Leopizzi">
+      <h3>Presentazione</h3><p>Tesina, documentazione, ricerca e questo sito.</p><code>perfez-2526-Presentation-Leopizzi</code></a>
+  </div>
+
+  <h2>Come funziona</h2>
+  <div class="schema"><svg viewBox="0 0 860 150" role="img" aria-label="Le fonti pubbliche alimentano la pipeline Python e il server locale, che serve la dashboard React">
+    <rect class="riquadro" x="4" y="30" width="180" height="90" rx="12"/>
+    <text x="94" y="62" text-anchor="middle">Fonti pubbliche</text>
+    <text class="secondario" x="94" y="82" text-anchor="middle">ARPA · OpenAQ · EEA · CAMS</text>
+    <text class="secondario" x="94" y="100" text-anchor="middle">ISTAT · Eurostat · ERA5-Land</text>
+    <rect class="riquadro" x="250" y="30" width="170" height="90" rx="12"/>
+    <text x="335" y="62" text-anchor="middle">Pipeline Python</text>
+    <text class="secondario" x="335" y="82" text-anchor="middle">validazione, unificazione</text>
+    <text class="secondario" x="335" y="100" text-anchor="middle">per zona e nel tempo</text>
+    <rect class="riquadro" x="486" y="30" width="170" height="90" rx="12"/>
+    <text x="571" y="62" text-anchor="middle">Server locale</text>
+    <text class="secondario" x="571" y="82" text-anchor="middle">FastAPI · 127.0.0.1:8000</text>
+    <text class="secondario" x="571" y="100" text-anchor="middle">Backend</text>
+    <rect class="riquadro" x="722" y="30" width="134" height="90" rx="12"/>
+    <text x="789" y="62" text-anchor="middle">Dashboard</text>
+    <text class="secondario" x="789" y="82" text-anchor="middle">React · Leaflet</text>
+    <text class="secondario" x="789" y="100" text-anchor="middle">Frontend</text>
+    <path class="freccia" d="M184 75h62m-8-5 8 5-8 5"/><path class="freccia" d="M420 75h62m-8-5 8 5-8 5"/><path class="freccia" d="M656 75h62m-8-5 8 5-8 5"/>
+  </svg></div>
+  <p style="margin-top:12px">Nessun database: i dati si scaricano con chiamate dirette alle fonti, si salvano in file e si interrogano in memoria. Backend e Frontend si parlano solo via HTTP; il contratto è lo schema OpenAPI. ONE, l'assistente, è un modello open-source preaddestrato (Qwen3.5 4B via Ollama) che gira sulla stessa macchina e risponde solo su un elenco chiuso di argomenti.</p>
+
+  <h2>Documentazione</h2>
+  <ul>
+    <li><a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Presentation-Leopizzi/blob/main/documentazione/Descrizione_Progetto.md">Descrizione del progetto</a> e <a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Presentation-Leopizzi/blob/main/documentazione/Scelte_Progettuali.md">le scelte progettuali</a>, con il perché di ogni fonte inserita o scartata</li>
+    <li><a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Presentation-Leopizzi/blob/main/documentazione/Architettura.md">Architettura</a> e <a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Backend-Leopizzi/blob/main/docs/Regole_dei_dati.md">regole dei dati</a></li>
+    <li><a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Backend-Leopizzi/blob/main/docs/Endpoint.md">Endpoint dell'API</a> e <a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Backend-Leopizzi/blob/main/ATTRIBUZIONI.md">attribuzioni delle fonti</a></li>
+    <li><a href="https://github.com/UniSalento-IDALab-corsoPerfez-25-26/perfez-2526-Presentation-Leopizzi/blob/main/documentazione/Bibliografia.md">Bibliografia</a> (stile Chicago)</li>
+  </ul>
+
+  <h2>Limiti dichiarati</h2>
+  <div class="nota">
+    <ul>
+      <li>La correlazione fra aria, calore e salute è <strong>esplorativa, non causale</strong>: fumo, età, comorbidità e aria indoor sono confondenti non misurati.</li>
+      <li>Dove non ci sono stazioni (124 comuni su 145) l'aria è solo <strong>modellata</strong> e viene sempre dichiarata come tale.</li>
+      <li>I decessi si mostrano solo a distretto × mese; ricoveri, pronto soccorso e ADI sono <strong>dati simulati</strong>, non reali.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Progetto d'esame del Corso di Perfezionamento in Tecnologie Digitali per Ambienti e Sistemi Intelligenti, Università del Salento (IDA Lab), con Parsec 3,26 — Matteo Leopizzi, a.a. 2025/2026.
+    Documenti in CC BY 4.0; codice in Apache-2.0.
+  </footer>
+</main>
+</body>
+</html>

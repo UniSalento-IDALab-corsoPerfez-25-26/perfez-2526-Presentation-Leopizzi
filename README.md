@@ -55,6 +55,7 @@ OneHealth/
 ## Struttura del repository
 
 ```text
+docs/               sito GitHub Pages (pagina statica, pubblicata dalla cartella /docs)
 tesi/               sorgenti LaTeX della tesina (main.tex, capitoli/, media/)
 presentazione/      Dichiarazione sull'utilizzo dell'IA e, alla consegna, la presentazione
 documentazione/     descrizione del progetto, abstract, stato dell'arte, scelte progettuali,
