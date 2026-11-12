@@ -26,7 +26,7 @@
   .sotto { color: var(--testo-2); font-size: 1.1rem; max-width: 62ch; }
   .tre { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 20px; }
   .card { background: var(--card); border: 1px solid var(--linea); border-radius: 14px; padding: 16px 18px; }
-  .card h3 { margin: 0 0 4px; font-size: 1rem; }
+  .card h3, .card .titolo { margin: 0 0 4px; font-size: 1rem; }
   .card p { color: var(--testo-2); margin: 0; font-size: 0.95rem; }
   .barra { height: 4px; border-radius: 2px; margin-bottom: 12px; }
   .repo { display: block; text-decoration: none; color: inherit; }
@@ -51,9 +51,9 @@
   <p class="sotto">Un cruscotto di supporto decisionale per presidi medici e aziende sanitarie, che affianca per zona e nel tempo <strong>qualità dell'aria</strong>, <strong>calore urbano</strong> e <strong>salute</strong> nel Salento. Solo dati pubblici, tutto in locale.</p>
 
   <div class="tre" aria-label="I tre domini">
-    <div class="card"><div class="barra" style="background:var(--aria)"></div><h3>Aria</h3><p>ARPA Puglia, OpenAQ, EEA e Copernicus CAMS, confrontate fra loro e con i limiti di legge.</p></div>
-    <div class="card"><div class="barra" style="background:var(--calore)"></div><h3>Calore</h3><p>Temperatura ERA5-Land e ARPA, copertura arborea e suolo impermeabile per comune.</p></div>
-    <div class="card"><div class="barra" style="background:var(--salute)"></div><h3>Salute</h3><p>Decessi ISTAT per distretto e mese; ricoveri, pronto soccorso e ADI simulati, sempre dichiarati.</p></div>
+    <div class="card"><div class="barra" style="background:var(--aria)"></div><h2 class="titolo">Aria</h2><p>ARPA Puglia, OpenAQ, EEA e Copernicus CAMS, confrontate fra loro e con i limiti di legge.</p></div>
+    <div class="card"><div class="barra" style="background:var(--calore)"></div><h2 class="titolo">Calore</h2><p>Temperatura ERA5-Land e ARPA, copertura arborea e suolo impermeabile per comune.</p></div>
+    <div class="card"><div class="barra" style="background:var(--salute)"></div><h2 class="titolo">Salute</h2><p>Decessi ISTAT per distretto e mese; ricoveri, pronto soccorso e ADI simulati, sempre dichiarati.</p></div>
   </div>
 
   <h2>Il progetto in tre repository</h2>
