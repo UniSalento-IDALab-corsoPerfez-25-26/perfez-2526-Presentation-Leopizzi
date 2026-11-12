@@ -1,0 +1,156 @@
+\documentclass[a4paper, 12pt, notitlepage]{report}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{verbatim}
+\usepackage{listings}
+
+\usepackage{hyperref}
+\usepackage{etoc}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{longtable,array}
+\usepackage{mathtools}
+
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+\usepackage{graphicx} % graphics package
+\graphicspath{ {./media/} } % images folder path
+
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    top=30mm,
+    bottom =30mm,
+    left=35mm,
+    right=35mm
+    }
+
+
+\renewcommand*\contentsname{Indice}
+
+% \unisalento command
+\newcommand{\unisalento}{\href{http://www.unisalento.it}{\textbf{\emph{Università del Salento}}}}
+
+% colors for code snippets
+\definecolor{codegreen}{rgb}{0,0.7,0.5}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0.5,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{orange},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codeblue},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% frontispiece created with \title command
+\title{
+    \includegraphics[scale=0.3]{logo.jpg}
+    
+    \vspace{1cm}
+    {\Huge{\textbf{Università Del Salento}}}
+    
+    \normalfont{Corso di Perfezionamento in “Tecnologie Digitali per Ambienti e Sistemi
+Intelligenti”}
+    \par\noindent\rule{\textwidth}{0.4pt}
+    
+    \vspace{0.3cm}
+    
+    \par \large{OneHealth}
+    
+    \vspace{0.3cm}
+
+    \par \Large{\textbf{Qualità dell'aria urbana e malattie respiratorie}}
+    
+    \vspace{6.0cm}
+
+    \begin{minipage}{\textwidth}
+        \par \small{Direttore del corso} 
+        \par \emph{Chiar.mo/ma Prof. Luigi Patrono}
+    \end{minipage}
+
+    \par \hfill \small{Corsista 
+    \par \hfill \emph{Matteo Leopizzi}
+    \par \hfill \emph{Matricola n° 20114063}}
+    \par\noindent\rule{\textwidth}{0.4pt}
+    \vspace{0.3cm}
+    
+    \small{ANNO ACCADEMICO 2025/2026}
+    \thispagestyle{empty}
+    }
+    
+\author{} % lasciare vuoto
+\date{}   % lasciare vuoto
+
+\hypersetup{hidelinks}
+
+\begin{document}
+    % frontispiece creation
+    \maketitle
+
+    % blank page
+    \mbox{}
+    \thispagestyle{empty}
+    
+    % index creation
+    \hypersetup{hidelinks}
+    \tableofcontents
+    \thispagestyle{empty}
+
+    % Chapter: "Introduction"
+    \hypersetup{hidelinks}
+    \include{./capitoli/introduzione.tex}
+
+    % Chapter 1
+    \hypersetup{hidelinks}
+    \include{./capitoli/capitolo_1.tex}
+    
+    % Chapter 2
+    \hypersetup{hidelinks}
+    \include{./capitoli/capitolo_2.tex}
+    
+    % Chapter 3
+    \hypersetup{hidelinks}
+    \include{./capitoli/capitolo_3.tex}
+    
+    % Chapters: "Conclusions"
+    \hypersetup{hidelinks}
+    \include{./capitoli/conclusioni.tex}
+    
+    % Chapter: "Credits"
+    \hypersetup{hidelinks}
+    \include{./capitoli/ringraziamenti.tex}
+
+    % List of figures
+    \newpage
+    \listoffigures
+    
+    % List of tables
+    \newpage
+    \listoftables
+    
+    \include{./capitoli/bibliografia.tex}
+%%%%%%%%%%%%% end %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

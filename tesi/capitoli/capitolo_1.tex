@@ -1,0 +1,78 @@
+\chapter{Aria, calore e salute: domini e approccio}
+\label{cap:1}
+
+Come detto nell'introduzione, OneHealth mette a confronto tre domini sullo stesso territorio e nello stesso periodo: sono stati considerati 145 comuni raggruppati in 20 distretti socio-sanitari ogniuno con l'obiettivo di registrarne i paramteri relativi ai tre domini per almeno tre anni consecutivi.
+
+\section{Scelta dei domini}
+\label{sec:domini-scelta}
+
+Partendo dall'inquinamento atmosferico riconosciuto determinante per la salute, in particolare per quella respiratoria~\cite{salgado2020,hamanaka2025}, in Salento il tema è rilevante per la presenza i poli industriali di Taranto e Brindisi. Il calore è il secondo fattore ambientale con un effetto documentato sulla mortalità e per la presenza di frequenti incendi nei mesi estivi. Nelle città europee una quota dei decessi estivi è attribuibile all'isola di calore urbana, e la copertura arborea ne riduce l'effetto~\cite{iungman2023,huang2023}.
+
+I due fattori si sovrappongono: picchi di ozono e ondate di calore cadono nella stessa stagione e colpiscono le stesse fasce fragili. Per questo vanno letti insieme, altrimenti uno dei due rischia di confondere la lettura dell'altro. La salute è il dominio che chiude il confronto. Si usa la mortalità perché è l'unico esito sanitario pubblico disponibile a grana comunale e giornaliera. Ricoveri, pronto soccorso e assistenza domiciliare sono invece simulati (Sezione~\ref{sec:domini-salute}).
+
+\section{Qualità dell'aria}
+\label{sec:domini-aria}
+
+Come detto, gli inquinanti di riferimento sono CO (monossido di carbonio), NO\textsubscript{2} (biossido di azoto), O\textsubscript{3} (ozono), PM\textsubscript{2.5} (particolato fine) e SO\textsubscript{2} (biossido di zolfo), a cui aggiungiamo il PM\textsubscript{10} (particolato grossolano) e il C\textsubscript{6}H\textsubscript{6} (benzene). Le fonti sono quattro:
+\begin{itemize}
+  \item \textbf{ARPA Puglia}, rete regionale di monitoraggio, fonte primaria;
+  \item \textbf{Agenzia Europea dell'Ambiente (EEA)} e \textbf{OpenAQ}, che ripubblicano le misure delle stesse stazioni e servono a validarle per ridondanza;
+  \item \textbf{Copernicus CAMS}, modello atmosferico a griglia di circa 10\,km, che dà un valore anche ai comuni senza stazioni.
+\end{itemize}
+Le stazioni fisiche sono 47, in 21 comuni su 145 e in 12 distretti su 20. Negli altri 8 distretti l'unico dato è quello di CAMS, che viene sempre dichiarato come dato modellato e non misurato. I valori si leggono rispetto ai limiti del D.Lgs.~155/2010 e alle linee guida OMS del 2021~\cite{dlgs_155_2010,who_aqg_2021}, confrontando solo statistiche omogenee. L'archivio copre il periodo dal 2020 a oggi.
+
+\section{Calore urbano}
+\label{sec:domini-calore}
+
+Il dominio del calore è indicato nel progetto con il nome UHRI (\emph{Urban Heat Island Mitigation \& Resilience}). Non è un indice unico: è un insieme di grandezze mostrate una accanto all'altra, senza pesi.
+\begin{itemize}
+  \item \textbf{Esposizione}: temperatura dell'aria media, massima e minima giornaliera per comune, dalla rianalisi Copernicus \textbf{ERA5-Land} (circa 9\,km), validata con le stazioni della \textbf{rete meteo ARPA Puglia}. Da queste si ricavano i giorni di caldo intenso (massima $\geq$ 30 e 35\,°C) e le notti tropicali (minima $\geq$ 20 e 25\,°C).
+  \item \textbf{Mitigazione}: copertura arborea e suolo impermeabile per comune, dai raster a 10\,m del \textbf{Copernicus Land Monitoring Service} (Tree Cover Density e Imperviousness Density).
+\end{itemize}
+Nessun dato pubblico sull'isola di calore copre il Salento, quindi le grandezze sono calcolate dal progetto, dove la serie di temperatura copre il periodo dal 2024 a oggi.
+
+\section{Salute}
+\label{sec:domini-salute}
+
+L'esito confrontato è la \textbf{mortalità per tutte le cause}, dai \textbf{decessi comunali giornalieri ISTAT} (2011--2026). Il dato si valida con altre due pubblicazioni: il \textbf{bilancio demografico mensile ISTAT} per comune e i decessi settimanali per provincia di \textbf{Eurostat}. La causa di morte non si usa, perché le fonti pubbliche la riportano solo a livello provinciale e annuale.
+
+Ricoveri, accessi in pronto soccorso e assistenza domiciliare integrata (ADI) non hanno una fonte pubblica sotto la provincia e con passo inferiore all'anno. Per collaudare la piattaforma si usano quindi \textbf{dati simulati} per comune e per giorno: ricoveri respiratori e circolatori, accessi in pronto soccorso e accessi degli assistiti in ADI (), con la quota a bassa urgenza e i ritorni entro 30 giorni. I livelli sono calibrati su dati pubblici reali: dimissioni di Health for All, Annuario statistico del SSN e stagionalità dei decessi ISTAT. Gli scenari selezionabili sono due:
+\begin{itemize}
+  \item \textbf{nullo}: solo popolazione, stagione e caso, senza alcun effetto dell'ambiente;
+  \item \textbf{letteratura}: effetto di PM\textsubscript{10}, NO\textsubscript{2} e caldo, con i coefficienti pubblicati~\cite{scarinzi_epiair2_2013,michelozzi_phewe_2009}.
+\end{itemize}
+Per l'ADI l'obiettivo è far emergere i periodi critici e gli accessi evitabili, per organizzare in anticipo le visite a domicilio. I dati simulati hanno la stessa forma di quelli reali e si sostituiscono quando questi arrivano. Non descrivono la situazione sanitaria del Salento e compaiono sempre con la dicitura «dato simulato, non reale».
+
+Accanto ai decessi, a titolo solo informativo, si mostrano le \textbf{dimissioni ospedaliere} per gruppo di patologia (respiratorie, BPCO, circolatorie) di \textbf{ISTAT Health for All}. Sono un dato annuale e provinciale e non entrano nel confronto. Per tutelare la privacy, i decessi non si mostrano mai sotto la scala del distretto e del mese.
+
+\section{Come si mettono in relazione}
+\label{sec:domini-correlazione}
+
+Ogni dominio resta alla grana più fine che la sua fonte consente: comune per giorno per aria e calore. Il confronto fra i tre domini si fa alla grana comune più fine, \textbf{distretto per mese}, che è anche il minimo ammesso per i decessi. Il passaggio di scala segue tre regole:
+\begin{itemize}
+  \item da stazione a comune: media delle stazioni fisiche;
+  \item da comune a distretto: media pesata sui residenti per concentrazioni e temperature, somma per i decessi;
+  \item da giorno a mese: media per le grandezze ambientali, somma per i decessi.
+\end{itemize}
+
+La relazione si legge in tre modi: le serie dei tre domini affiancate nel tempo per un distretto, il confronto fra distretti e il confronto dei dodici mesi dell'anno, che individua il periodo peggiore come somma dei ranghi di aria, temperatura e decessi.
+
+L'analisi è \textbf{esplorativa e non causale}. Fumo, età, comorbidità e aria indoor non sono osservabili nelle fonti pubbliche e restano fattori confondenti. I dati simulati lo mostrano su un caso di cui si conosce la verità. Nello scenario \emph{letteratura} la correlazione grezza fra temperatura massima e ricoveri respiratori resta negativa anche se il caldo li aumenta, perché d'inverno i ricoveri sono di più. Le stazioni fisse misurano inoltre l'esposizione della popolazione, non quella del singolo.
+
+\section{Isole di calore: stato dell'arte}
+\label{sec:domini-uhi}
+
+Si distinguono due grandezze. L'isola di calore \emph{atmosferica} è la differenza di temperatura dell'aria fra città e campagna e si misura con stazioni a terra. L'isola di calore \emph{superficiale} (\emph{Surface Urban Heat Island}, SUHI) è la differenza di temperatura della superficie (\emph{Land Surface Temperature}, LST) fra aree urbane e non urbane e si misura da satellite~\cite{zhou2019}. Le due non coincidono: la LST descrive ciò che il sensore vede al momento del passaggio, non l'aria che la popolazione respira.
+
+\paragraph{Sistemi satellitari.} Le rassegne concordano che la SUHI si studia soprattutto con Landsat (30\,m, passaggio ogni 16 giorni) e con MODIS (circa 1\,km, più volte al giorno)~\cite{zhou2019,almeida2021}. I due sensori sono complementari: il primo distingue i quartieri ma osserva di rado, il secondo osserva spesso ma non distingue i quartieri. I limiti sono noti: le nuvole cancellano le osservazioni, il passaggio cade a ore fisse e la definizione di «urbano» e «rurale» cambia da studio a studio~\cite{zhou2019}. Per il confronto del clima nel tempo si usano invece rianalisi come ERA5-Land~\cite{era5_land}, che dà la temperatura dell'aria su griglia continua nel tempo ma a risoluzione grossolana e non vede l'isola di calore dentro una città. La scelta del progetto segue questa distinzione: l'esposizione al calore viene dalla rianalisi, validata con le stazioni ARPA, e la SUHI da satellite è rimandata (Capitolo~\ref{cap:conclusioni}).
+
+\paragraph{Fattori e Salento.} L'intensità dell'isola di calore dipende da suolo impermeabile, vegetazione, struttura urbana, albedo e clima~\cite{zhou2019}. Per questo il progetto affianca all'esposizione la copertura arborea e il suolo impermeabile (Sezione~\ref{sec:domini-calore}). L'effetto non è universale. Per il Salento uno studio su immagini Landsat 8 durante un'ondata di calore trova una intensità \emph{inferiore} nei centri abitati che nelle campagne circostanti, un «effetto inverso» che gli autori collegano, come ipotesi da approfondire, ai materiali chiari dei centri storici~\cite{derazza2024}. Per Lecce l'intensità dell'isola di calore è stata misurata anche nella sua variazione stagionale, diurna e durante le ondate di calore~\cite{pappaccogli_uhi_lecce_2024}. Ne segue che nessun valore di altre città può essere trasferito al Salento, e che grandezze superficiali e dell'aria possono dire cose diverse sullo stesso comune.
+
+\paragraph{Il termine «sistemi GIS».} Un \emph{Geographic Information System} è un software, o un insieme di strumenti, per archiviare, sovrapporre e analizzare dati riferiti a un luogo. Non è una tecnica di misura, né un metodo scientifico: nella letteratura sulle isole di calore indica l'ambiente in cui si fa l'analisi, e l'aggettivo «\emph{GIS-based}» qualifica studi che sovrappongono livelli geografici diversi. Una rassegna di 579 studi che usano il telerilevamento per le isole di calore riporta ArcGIS come il software più usato, in quasi un terzo dei casi~\cite{almeida2021}. Gli usi sono due. Il primo è il \emph{rilevamento} dei punti caldi: applicazioni su Napoli classificano la LST di Landsat durante le ondate di calore con algoritmi di raggruppamento e li confrontano con densità edilizia, superfici permeabili e vegetazione~\cite{cafaro2024}. Il secondo è la \emph{valutazione del rischio}: l'indice di rischio di Manchester sovrappone intensità, copertura verde e densità di popolazione a scala di distretto~\cite{elmarakby2024}. Nel linguaggio della tesi si parla dunque di \emph{analisi geospaziale in ambiente GIS}, non di «sistemi GIS» come tecnologia a sé.
+
+OneHealth non è un sistema GIS in questo senso. Non carica livelli raster in un software dedicato né ne usa gli strumenti di analisi: sovrappone alla scala del distretto le grandezze già aggregate al comune (media dei pixel CLMS entro il confine, media delle celle ERA5-Land pesata sulla superficie) e le mostra su una carta (Sezione~\ref{sec:impl-dashboard}). Rispetto agli studi citati cambiano due cose. L'unità è amministrativa e coincide con quella dei servizi sanitari, non con la cella o il quartiere. E non c'è un indice di rischio: gli studi sopra costruiscono indici con pesi scelti dagli autori, mentre il progetto mostra le grandezze accanto, senza pesi (Sezione~\ref{sec:domini-calore}).
+
+\section{Stato dell'arte e posizionamento}
+\label{sec:domini-stato-arte}
+
+Esistono piattaforme mature che integrano ambiente e salute, ma operano su scale più ampie. Il \emph{Tracking Network} dei CDC è nazionale~\cite{cdc_tracking}, l'Atlante europeo Ambiente e Salute dell'EEA arriva alla città~\cite{eea_atlas} e l'Atlante Aria Salute italiano è nazionale e regionale~\cite{atlante_aria_salute}. Nessuna unisce aria, calore e mortalità alla scala del distretto per il controllo di gestione delle aziende sanitarie: è lo spazio di OneHealth, basato su sole fonti pubbliche.

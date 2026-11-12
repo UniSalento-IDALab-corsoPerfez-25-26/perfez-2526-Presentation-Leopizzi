@@ -1,0 +1,55 @@
+\chapter{Architettura e implementazione}
+\label{cap:3}
+
+Questo capitolo descrive come i dati del Capitolo~\ref{cap:2} diventano uno strumento consultabile: l'architettura del sistema, la dashboard e l'assistente in linguaggio naturale.
+
+\section{Architettura}
+\label{sec:impl-architettura}
+
+Il sistema gira interamente sulla macchina di chi lo usa, a un solo indirizzo locale, e usa solo software libero e servizi gratuiti e senza quote. Ha quattro strati, e i dati vanno in un solo verso: dalle fonti alla dashboard.
+\begin{enumerate}
+  \item \textbf{Acquisizione}: un client Python per ogni fonte, con il controllo dei valori appena ricevuti (Sezione~\ref{sec:dati-qualita}). Le fonti d'aria sono adattatori con la stessa interfaccia: aggiungerne una non richiede di toccare il generatore.
+  \item \textbf{Pipeline}: con \texttt{pandas} produce i dataset per dominio, uno per mese, in JSON. Sono l'unica cosa salvata su disco. Non c'è un database persistente.
+  \item \textbf{Server locale}: un'applicazione FastAPI carica i JSON in uno SQLite \emph{in memoria}, che si ricostruisce a ogni avvio e termina col processo, e risponde con dati già aggregati alla grana richiesta (comune, distretto, giorno, mese). Il browser non riceve mai il dato per stazione.
+  \item \textbf{Dashboard}: un'applicazione React con TypeScript, che interroga il server.
+\end{enumerate}
+L'assistente (Sezione~\ref{sec:impl-assistente}) è un modulo dello stesso processo Python, accanto ai dati.
+
+Alcune scelte tengono insieme sistema e requisiti. Lo SQL sta dove stanno i dati, e le medie per comune e per distretto (Sezione~\ref{sec:domini-correlazione}) sono scritte una volta in Python e non si ripetono nel browser. I modelli Pydantic del server definiscono lo schema OpenAPI, da cui si generano i tipi TypeScript: gli stati \texttt{VALORE}, \texttt{NULL} e \texttt{NO\_DATA} hanno così un'unica definizione e arrivano fino all'interfaccia senza essere convertiti in zero. Per la rapidità, i mesi chiusi hanno un riassunto già calcolato su disco (un consuntivo per dominio e mese) e all'avvio il server prepara in memoria le risposte della finestra iniziale e le scarta appena i dati cambiano, così la prima schermata non attende il calcolo.
+
+I dati restano pubblici e aggregati. I decessi comunali giornalieri entrano nel server ma non escono: l'interfaccia li serve solo per distretto e mese (Sezione~\ref{sec:domini-salute}). La riproducibilità è affidata agli script: dalle fonti si rigenera l'archivio, con un'impronta dell'elenco dei comuni che fa rifare da sé un mese prodotto con un elenco diverso.
+
+\section{Dashboard}
+\label{sec:impl-dashboard}
+
+La dashboard è una pagina unica per il responsabile di un presidio o di un'azienda sanitaria. Si naviga con cinque voci in una barra laterale: Mappa, Stagionalità, Fonti a confronto, Riepilogo e Informazioni. La mappa usa Leaflet con le tessere di OpenStreetMap~\cite{osm_copyright}, senza chiave, e i confini reali di distretti e comuni; i grafici sono di Recharts.
+
+\paragraph{Finestra di osservazione.} Una testata a una riga mostra periodo, domini coperti e inquinante. Il periodo è una finestra di al più 31 giorni su una barra che parte dal 1° gennaio 2024; si apre sull'ultimo mese coperto da tutti i domini, perché solo lì il confronto ha senso.
+
+\paragraph{Mappa.} Al centro c'è la carta; la scheda della zona sta a sinistra e riassume in sei particelle aria, salubrità, temperatura, alberi, suolo e salute. Si possono cercare le zone e confrontarne fino a quattro. La salubrità dell'aria di una zona è quella del peggiore fra gli inquinanti, senza pesi, confrontato con i limiti di legge solo a parità di statistica.
+
+\paragraph{Altre viste.} La Sintesi della finestra mette in una scheda i numeri di testa e la classifica delle zone a confronto. Fonti a confronto mostra, per la stessa zona, le fonti una accanto all'altra e la concordanza. Il confronto fra domini, per distretto e mese, affianca aria, temperatura e decessi. Stagionalità è il sommario per il direttore: dice quando intervenire, i periodi critici e che cosa sta cambiando, con il mese peggiore trovato come somma dei ranghi dei domini (Sezione~\ref{sec:domini-correlazione}); il consiglio in cima è presentato come spunto da valutare, non come prescrizione.
+
+\paragraph{Onestà del dato.} L'interfaccia non nasconde ciò che manca o che non è misurato. Quattro segni indicano lo stato di un valore: la beuta per il simulato, il cubo per il modellato, il divieto per il dato assente (\texttt{NO\_DATA}), il punto esclamativo per il dato non utilizzabile (\texttt{NULL}). Il motivo è nel suggerimento al passaggio del mouse. I dati mensili e annuali compaiono come media giornaliera con il segno «\texttt{\textasciitilde}» e non entrano mai nelle correlazioni. Dove non ci sono stazioni c'è solo CAMS, dichiarato come modellato. Ogni confronto fra domini porta l'avvertenza che è esplorativo e non causale. Le spiegazioni stanno tutte nella voce Informazioni, divisa per argomento e sottoargomento; ogni scheda vi rimanda con la sua icona della guida. Non ci sono comandi nell'interfaccia: sono nel solo file di istruzioni.
+
+\section{Assistente in linguaggio naturale}
+\label{sec:impl-assistente}
+
+L'assistente, chiamato ONE, risponde a domande in italiano su una scheda della dashboard. Usa il modello open source Qwen3.5 4B~\cite{qwen35_4b} (licenza Apache 2.0), preaddestrato e usato senza \emph{fine-tuning}, eseguito con Ollama~\cite{ollama} sulla stessa macchina della dashboard. Domande, dati e risposte non escono dal computer: è un requisito del committente Parsec 3,26. Il modello scrive direttamente in italiano, senza un modello di traduzione.
+
+Lo scopo di ONE è guidare chi organizza i servizi verso la medicina di iniziativa, il modello di assistenza che va incontro ai malati cronici e agli anziani fragili prima che arrivino in pronto soccorso~\cite{piano_cronicita_2016,dm_77_2022}, per ridurre l'ospedalizzazione evitabile. Dal sommario della Stagionalità, «Quando intervenire», ONE risponde a domande come «Come si può ridurre l'ospedalizzazione?», «Quali zone privilegiare per l'assistenza domiciliare?» o «Prepara un report con le linee d'azione». Il codice calcola quando (i periodi critici), quanto (ricoveri, accessi in pronto soccorso e accessi degli assistiti in assistenza domiciliare integrata negli ultimi 12 mesi) e dove: le zone fra le prime tre per almeno due di tre temi (ricoveri, accessi a bassa urgenza e ritorni entro 30 giorni), senza un punteggio unico. Le leve organizzative (chiamata attiva, assistenza domiciliare, dimissioni protette, piani per l'inverno e per il caldo) vengono da un documento scritto per l'assistente; il report le ordina in cinque parti: quando, dove, cosa fare, come verificare, limiti. ONE arriva al comune, non al quartiere, non nomina persone e non dà terapie. Poiché ricoveri, pronto soccorso e assistenza domiciliare sono dati simulati, le indicazioni mostrano come lavorerebbe lo strumento con i dati reali e restano spunti da valutare.
+
+Un modello da 4 miliardi di parametri si può convincere a uscire dalle regole e può sbagliare un numero. Per questo il modello non calcola e non sceglie le fonti: scrive soltanto. Il resto lo fa il codice, in sei passi.
+\begin{enumerate}
+  \item \textbf{Filtro}: il codice scarta le domande vuote, quelle oltre i 400 caratteri e i tentativi di cambiare le regole («ignora le istruzioni»).
+  \item \textbf{Instradamento}: il modello classifica la domanda con una risposta JSON vincolata da uno schema, in cui analisi e argomenti sono un elenco chiuso. Non può scegliere qualcosa che non esiste.
+  \item \textbf{Controllo dei parametri}: zona, periodo e inquinante devono esistere nell'archivio. Quelli mancanti si prendono dalla scheda aperta.
+  \item \textbf{Esecuzione}: per una domanda di \emph{analisi} una funzione Python calcola i fatti, per esempio la media, il giorno peggiore, la tendenza, i giorni oltre un limite o la relazione con la temperatura. Usa le stesse aggregazioni della dashboard, quindi anche i vincoli di privacy. Per una \emph{descrizione} il codice sceglie le sezioni di una quindicina di documenti scritti per l'assistente, uno per ogni scheda che ha la chat. È la parte di recupero della \emph{Retrieval-Augmented Generation}~\cite{lewis_rag_2020}, fatta per argomento e per parole della domanda e senza modello di \emph{embedding}: il corpus è piccolo e la scelta resta prevedibile e verificabile.
+  \item \textbf{Risposta}: il modello scrive al più 150 parole usando solo i fatti o le sezioni ricevuti, e cita ogni base con il suo identificativo.
+  \item \textbf{Verifica}: ogni numero del testo deve comparire fra le basi, le citazioni devono essere valide e il testo dev'essere in italiano. Se la verifica fallisce, il testo non si mostra e restano i soli fatti calcolati. Le avvertenze (dato modellato o simulato, relazione esplorativa) le aggiunge il codice.
+\end{enumerate}
+Tutto ciò che non rientra nell'elenco riceve un rifiuto fisso, scritto dal codice: «La richiesta non può essere processata o non esiste nessun dato a riguardo nel sistema.» Se il modello è spento la dashboard funziona lo stesso, e la chat mostra i soli fatti.
+
+Il perimetro si è misurato con una batteria di 64 domande: 5 proposte, 21 libere in perimetro, 14 sulle schede che per ora hanno solo la descrizione, 9 fuori tema, 5 richieste di consigli medici e 10 tentativi di aggiramento. In nessun giro una risposta è uscita dal perimetro. Nell'ultimo giro 63 domande su 64 hanno avuto l'esito atteso, con una mediana di 3,9\,s a risposta. L'eccezione è un rifiuto sul mese più caldo di un anno, che richiede un'analisi su serie mensili non ancora collegata; in altri giri una risposta è arrivata al tetto di lunghezza e la verifica l'ha fermata. I giri non sono identici: piccole modifiche al testo delle istruzioni spostano l'esito di qualche domanda, e in un giro il modello ha risposto in inglese a «Rispondi in inglese». Per questo anche la lingua si controlla nel codice. La verifica controlla i numeri ma non le parole: alla lettura sono emersi errori come «tre giorni consecutivi» al posto di «tre giorni». Per questo nell'interfaccia ogni risposta porta accanto i dati usati.
+
+Nella dashboard l'assistente si apre dall'icona del cuore accanto all'icona della guida, su sei schede. Ogni scheda ha un documento che dice cosa mostra, quali dati contiene e come si legge, e la prima domanda proposta è sempre «Cosa sto guardando?»; le domande sui numeri, per ora, sono attive solo sul grafico giornaliero dell'inquinante. Le domande sulla scheda e sull'assistente stesso si riconoscono nel codice, senza passare dal modello. La chat accetta anche domande libere e riparte quando la scheda cambia zone, periodo, inquinante o fonte.

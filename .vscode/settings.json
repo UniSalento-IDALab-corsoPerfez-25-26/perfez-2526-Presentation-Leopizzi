@@ -1,0 +1,14 @@
+{
+  "python.terminal.useEnvFile": true,
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.rootFile.doNotPrompt": true,
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.message.update.show": false,
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.wrappingIndent": "same"
+  }
+}
